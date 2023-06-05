@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const ApiCall = ({ url, params, render, boolList }) => {
+const ApiCall = ({ url, params, render, boolList, clearList }) => {
     const [games, setGames] = useState(boolList ? [] : {});
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -11,7 +11,7 @@ const ApiCall = ({ url, params, render, boolList }) => {
             try {
                 const response = await axios.get(url, { params });
                 const data = boolList ? response.data.results : response.data;
-                boolList ? setGames(prevGames => [...prevGames, ...data]) : setGames(data);
+                boolList ? setGames(clearList ? data : prevGames => [...prevGames, ...data]) : setGames(data);
             } catch (error) {
                 setError(error);
             } finally {

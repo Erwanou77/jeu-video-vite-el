@@ -8,11 +8,16 @@ import { Icon } from '@iconify/react';
 const Detail = () => {
     const { id } = useParams();
     const [isFavorite, setIsFavorite] = useState(false);
+    const [isCompleted, setIsCompleted] = useState(false);
 
     useEffect(() => {
         const storedFavoriteGames = localStorage.getItem('favoriteGames') || '[]';
         const favoriteGames = JSON.parse(storedFavoriteGames);
         setIsFavorite(favoriteGames.some((favorite) => favorite.id === JSON.parse(id)));
+
+        const storedCompletedGames = localStorage.getItem('completedGames') || '[]';
+        const completedGames = JSON.parse(storedCompletedGames);
+        setIsCompleted(completedGames.some((completed) => completed.id === JSON.parse(id)));
     });
 
     const addToFavorites = (game) => {
@@ -39,7 +44,32 @@ const Detail = () => {
           setIsFavorite(false)
         }
     };
+
+    const addToCompleted = (game) => {
+        const storedCompletedGames = localStorage.getItem('completedGames');
+        let completedGames = [];
+      
+        if (storedCompletedGames) {
+          completedGames = JSON.parse(storedCompletedGames);
+        }
+      
+        completedGames.push(game);
+        localStorage.setItem('completedGames', JSON.stringify(completedGames));
+        setIsCompleted(true)
+    };
     
+    const removeFromCompleted = (game) => {
+        const storedCompletedGames = localStorage.getItem('completedGames');
+        let completedGames = [];
+      
+        if (storedCompletedGames) {
+          completedGames = JSON.parse(storedCompletedGames);
+          completedGames = completedGames.filter(completed => completed.id !== game.id);
+          localStorage.setItem('completedGames', JSON.stringify(completedGames));
+          setIsCompleted(false)
+        }
+    };
+
     const params = {
         key: "703ab7abdb434e81b8492cd1c95664d6"
     };
@@ -75,6 +105,10 @@ const Detail = () => {
                                         <dl className='flex justify-between border-b mt-5 border-b-gray-500'>
                                             <dt className='text-xl uppercase font-bold'>Ajouter au favoris</dt>
                                             <dd>{!isFavorite ? (<Icon icon={"material-symbols:star-outline"} onClick={() => addToFavorites(game)} />) : (<Icon icon={"material-symbols:star"} onClick={() => removeFromFavorites(game)} />) }</dd>
+                                        </dl>
+                                        <dl className='flex justify-between border-b mt-5 border-b-gray-500'>
+                                            <dt className='text-xl uppercase font-bold'>Jeux terminés ?</dt>
+                                            <dd>{!isCompleted ? (<Icon icon={"mdi:stop"} onClick={() => addToCompleted(game)} />) : (<Icon icon={"mdi:play"} onClick={() => removeFromCompleted(game)} />) }</dd>
                                         </dl>
                                     </div>
                                 </div>

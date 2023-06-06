@@ -1,0 +1,6 @@
+section#profil {
+    @apply container mx-auto my-5;
+    > div.galleryCards {
+        @apply flex flex-row flex-wrap lg:justify-between justify-center gap-10;
+    }
+}

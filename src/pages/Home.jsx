@@ -40,7 +40,7 @@ const Home = () => {
                 params={params}
                 boolList={true}
                 clearList={clearList}
-                render={games => Cards(games, handleLoadMore)}
+                render={games => <Cards games={games} handleLoadMore={handleLoadMore} />}
             />
             </div>
         </section>

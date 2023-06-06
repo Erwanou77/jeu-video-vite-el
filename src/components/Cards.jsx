@@ -1,7 +1,7 @@
 // import { InlineIcon } from "@iconify/react";
 import noPhoto from "../assets/img/no-photo.png";
 
-const Cards = (games, handleLoadMore) => {
+const Cards = ({games, handleLoadMore}) => {
     // const listPlatforms = ['pc', 'xbox-360', 'xbox-one', 'xbox-series-x', 'xbox', 'playstation3', 'playstation4', 'playstation5', 'nintendo'];
     return (
         <>
@@ -21,7 +21,7 @@ const Cards = (games, handleLoadMore) => {
                 ))}
             </a>
         ))}
-        <button onClick={handleLoadMore}>Charger plus de jeux</button>
+        {handleLoadMore && <button onClick={handleLoadMore}>Charger plus de jeux</button>}
         </>
     );
 };
